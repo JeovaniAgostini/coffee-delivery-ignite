@@ -46,7 +46,7 @@ export function SuccessOrder() {
                 <BorderGradient>
                     <div className="success-message">
                         <BadgeAddress>
-                            <MapPin size={32} weight="bold" />
+                            <MapPin size={32} weight="fill" />
                             <p>
                                 Entrega em{' '}
                                 <strong>{`${address.street}, ${address.numberHouse} `}</strong>
@@ -56,7 +56,7 @@ export function SuccessOrder() {
                         </BadgeAddress>
 
                         <BadgeTime>
-                            <Timer size={32} weight="bold" />
+                            <Timer size={32} weight="fill" />
                             <p>
                                 Previsão de entrega
                                 <br />

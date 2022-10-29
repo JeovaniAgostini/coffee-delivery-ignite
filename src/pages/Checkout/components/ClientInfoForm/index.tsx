@@ -65,7 +65,7 @@ export function ClientInfoForm({
             {/* Endereço do cliente */}
             <div className="user-address">
                 <HeaderFormAddress>
-                    <MapPinLine size={22} weight="regular" />
+                    <MapPinLine size={22} weight="fill" />
                     <div>
                         <p>Endereço de Entrega</p>
                         <span>Informe o endereço onde deseja receber seu pedido</span>
@@ -123,7 +123,7 @@ export function ClientInfoForm({
             {/* Método de pagamento */}
             <div className="user-payment">
                 <HeaderPayment>
-                    <CurrencyDollar size={22} weight="regular" />
+                    <CurrencyDollar size={22} weight="bold" />
 
                     <div>
                         <p>Pagamento</p>

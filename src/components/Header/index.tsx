@@ -40,14 +40,14 @@ export function Header() {
 
                 <HomeButton onClick={handleToggleTheme} title="Trocar tema">
                     {themeSelected === 'light' ? (
-                        <Moon size={18} weight="bold" />
+                        <Moon size={18} weight="fill" />
                     ) : (
-                        <Sun size={18} weight="bold" />
+                        <Sun size={18} weight="fill" />
                     )}
                 </HomeButton>
 
                 <HomeButton onClick={() => navigate('/')} title="Home">
-                    <House size={18} weight="bold" />
+                    <House size={18} weight="fill" />
                 </HomeButton>
 
                 <CartButton
