@@ -12,129 +12,129 @@ import { InputCount } from '../Inputs/InputCount'
 import { ProductItemContainer } from './styles'
 
 export interface Product {
-  id: number
-  name: string
-  description: string
-  price: number
-  tags: string[]
-  image: string
-  isAvaliable?: boolean
+    id: number
+    name: string
+    description: string
+    price: number
+    tags: string[]
+    image: string
+    isAvaliable?: boolean
 }
 
 interface ProductItemProps {
-  product: Product
+    product: Product
 }
 
 export function ProductItem({ product }: ProductItemProps) {
-  const [count, setCount] = useState(1)
-  const [priceFormatted, setPriceFormatted] = useState<number | string>(
-    product.price,
-  )
+    const [count, setCount] = useState(1)
+    const [priceFormatted, setPriceFormatted] = useState<number | string>(
+        product.price,
+    )
 
-  const productRef = useRef<HTMLLIElement>(null)
+    const productRef = useRef<HTMLLIElement>(null)
 
-  useEffect(() => {
-    if (productRef.current) {
-      ScrollReveal().reveal(productRef.current, {
-        origin: 'bottom',
-      })
-    }
-  }, [])
+    useEffect(() => {
+        if (productRef.current) {
+            ScrollReveal().reveal(productRef.current, {
+                origin: 'bottom',
+            })
+        }
+    }, [])
 
-  // Calcula o novo valor conforme a quantidade do produto altera //
-  useEffect(() => {
-    const newPrice = formatToBRCashString(product.price * count)
-    setPriceFormatted(newPrice)
-  }, [product.price, count])
+    // Calcula o novo valor conforme a quantidade do produto altera //
+    useEffect(() => {
+        const newPrice = formatToBRCashString(product.price * count)
+        setPriceFormatted(newPrice)
+    }, [product.price, count])
 
-  const { addProductToShopCart } = useCart()
+    const { addProductToShopCart } = useCart()
 
-  // Função responsável por adicionar +1 unidade do produto //
-  function handleAddOneProductUnity() {
-    const newCount = count + 1
+    // Função responsável por adicionar +1 unidade do produto //
+    function handleAddOneProductUnity() {
+        const newCount = count + 1
 
-    if (newCount >= 100) {
-      toast.warn('Quantidade máxima: 99')
-      return
-    }
+        if (newCount >= 100) {
+            toast.warn('Quantidade máxima: 99')
+            return
+        }
 
-    setCount(newCount)
-  }
-
-  // Função responsável por remover 1 unidade do produto //
-  function handleRemoveOneProductUnity() {
-    const newCount = count - 1
-
-    if (newCount <= 0) {
-      toast.warn('Quantidade mínima: 1')
-      return
-    }
-    setCount(newCount)
-  }
-
-  // Função responsável por repassar os dados do produto para a função //
-  // na qual irá adiciona-lo ao carrinho //
-  function hanldeAddToShoppingCart() {
-    const productItem = {
-      id: product.id,
-      name: product.name,
-      description: product.description,
-      image: product.image,
-      price: product.price,
+        setCount(newCount)
     }
 
-    addProductToShopCart({ ...productItem }, count)
-    setCount(1)
-  }
+    // Função responsável por remover 1 unidade do produto //
+    function handleRemoveOneProductUnity() {
+        const newCount = count - 1
 
-  // Função responsável por atualizar o valor do input //
-  function handleChangeProductUnity(countOfProduct: number) {
-    const newCount = countOfProduct
-
-    if (newCount <= 0 || newCount >= 100) {
-      return
+        if (newCount <= 0) {
+            toast.warn('Quantidade mínima: 1')
+            return
+        }
+        setCount(newCount)
     }
 
-    setCount(newCount)
-  }
+    // Função responsável por repassar os dados do produto para a função //
+    // na qual irá adiciona-lo ao carrinho //
+    function hanldeAddToShoppingCart() {
+        const productItem = {
+            id: product.id,
+            name: product.name,
+            description: product.description,
+            image: product.image,
+            price: product.price,
+        }
 
-  return (
-    <ProductItemContainer ref={productRef}>
-      <img src={product.image} alt={product.name} />
+        addProductToShopCart({ ...productItem }, count)
+        setCount(1)
+    }
 
-      <div className="badge-features">
-        {product.tags.map((tag) => (
-          <span key={tag}>{tag.toLocaleUpperCase()}</span>
-        ))}
-      </div>
+    // Função responsável por atualizar o valor do input //
+    function handleChangeProductUnity(countOfProduct: number) {
+        const newCount = countOfProduct
 
-      <p className="name">{product.name}</p>
+        if (newCount <= 0 || newCount >= 100) {
+            return
+        }
 
-      <span className="description">{product.description}</span>
+        setCount(newCount)
+    }
 
-      <footer>
-        <span>
-          R$
-          <strong>
-            {count === 0 ? formatToBRCashString(product.price) : priceFormatted}
-          </strong>
-        </span>
+    return (
+        <ProductItemContainer ref={productRef}>
+            <img src={product.image} alt={product.name} />
 
-        <div className="actions">
-          <InputCount
-            value={count}
-            onChange={(e) => handleChangeProductUnity(Number(e.target.value))}
-            onAddOneProductUnity={handleAddOneProductUnity}
-            onRemoveProductUnity={handleRemoveOneProductUnity}
-            min={1}
-            max={99}
-          />
+            <div className="badge-features">
+                {product.tags.map((tag) => (
+                    <span key={tag}>{tag.toLocaleUpperCase()}</span>
+                ))}
+            </div>
 
-          <button className="buy-button" onClick={hanldeAddToShoppingCart}>
-            <ShoppingCart size={22} weight="fill" />
-          </button>
-        </div>
-      </footer>
-    </ProductItemContainer>
-  )
+            <p className="name">{product.name}</p>
+
+            <span className="description">{product.description}</span>
+
+            <footer>
+                <span>
+                    R$
+                    <strong>
+                        {count === 0 ? formatToBRCashString(product.price) : priceFormatted}
+                    </strong>
+                </span>
+
+                <div className="actions">
+                    <InputCount
+                        value={count}
+                        onChange={(e) => handleChangeProductUnity(Number(e.target.value))}
+                        onAddOneProductUnity={handleAddOneProductUnity}
+                        onRemoveProductUnity={handleRemoveOneProductUnity}
+                        min={1}
+                        max={99}
+                    />
+
+                    <button className="buy-button" onClick={hanldeAddToShoppingCart}>
+                        <ShoppingCart size={22} weight="fill" />
+                    </button>
+                </div>
+            </footer>
+        </ProductItemContainer>
+    )
 }

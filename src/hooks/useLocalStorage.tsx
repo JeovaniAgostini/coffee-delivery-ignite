@@ -1,21 +1,21 @@
 export function useLocalStorage() {
-  function saveToLocalStorage(data: any, key: string) {
-    if (!data) return
+    function saveToLocalStorage(data: any, key: string) {
+        if (!data) return
 
-    const dataJSON = JSON.stringify(data)
+        const dataJSON = JSON.stringify(data)
 
-    localStorage.setItem(key, dataJSON)
-  }
+        localStorage.setItem(key, dataJSON)
+    }
 
-  function loadLocalStorage(key: string) {
-    const dataJSON = localStorage.getItem(key)
+    function loadLocalStorage(key: string) {
+        const dataJSON = localStorage.getItem(key)
 
-    if (!dataJSON) return
+        if (!dataJSON) return
 
-    const data = JSON.parse(dataJSON)
+        const data = JSON.parse(dataJSON)
 
-    return data
-  }
+        return data
+    }
 
-  return { saveToLocalStorage, loadLocalStorage }
+    return { saveToLocalStorage, loadLocalStorage }
 }

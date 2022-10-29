@@ -10,110 +10,110 @@ import { InputCount } from '../../../../components/Inputs/InputCount'
 import { Container } from './styles'
 
 type Product = {
-  id: number
-  name: string
-  description: string
-  price: number
-  image: string
+    id: number
+    name: string
+    description: string
+    price: number
+    image: string
 }
 
 interface ProductsSelectedProps {
-  product: Product
-  countOfProduct: number
+    product: Product
+    countOfProduct: number
 }
 
 export function ProductsSelected({
-  product,
-  countOfProduct,
+    product,
+    countOfProduct,
 }: ProductsSelectedProps) {
-  const { updateCounOfProduct, deleteProductAtTheCart } = useCart()
+    const { updateCounOfProduct, deleteProductAtTheCart } = useCart()
 
-  const [totalPrice, setTotalPrice] = useState<string | number>(0)
-  const [count, setCount] = useState(() => {
-    if (countOfProduct) {
-      return countOfProduct
-    } else {
-      return 0
-    }
-  })
+    const [totalPrice, setTotalPrice] = useState<string | number>(0)
+    const [count, setCount] = useState(() => {
+        if (countOfProduct) {
+            return countOfProduct
+        } else {
+            return 0
+        }
+    })
 
-  // Calcula o valor total daquele item (preço unitário X Quantidade) //
-  useEffect(() => {
-    const total = formatToBRCashString(product.price * count)
-    setTotalPrice(total)
-  }, [product.price, count])
+    // Calcula o valor total daquele item (preço unitário X Quantidade) //
+    useEffect(() => {
+        const total = formatToBRCashString(product.price * count)
+        setTotalPrice(total)
+    }, [product.price, count])
 
-  // Função responsável por adicionar +1 unidade do produto //
-  function handleAddOneProductUnity() {
-    const newCount = count + 1
+    // Função responsável por adicionar +1 unidade do produto //
+    function handleAddOneProductUnity() {
+        const newCount = count + 1
 
-    if (newCount >= 100) {
-      return
-    }
+        if (newCount >= 100) {
+            return
+        }
 
-    setCount(newCount)
-    updateCounOfProduct(product.id, newCount)
-  }
-
-  // Função responsável por remover 1 unidade do produto //
-  function handleRemoveOneProductUnity() {
-    const newCount = count - 1
-
-    if (newCount <= 0) {
-      return
-    }
-    setCount(newCount)
-    updateCounOfProduct(product.id, newCount)
-  }
-
-  // Função responsável por atualizar o valor do input //
-  function handleChangeProductUnity(countOfProduct: number) {
-    const newCount = countOfProduct
-
-    if (newCount <= 0 || newCount >= 100) {
-      return
+        setCount(newCount)
+        updateCounOfProduct(product.id, newCount)
     }
 
-    setCount(newCount)
-    updateCounOfProduct(product.id, newCount)
-  }
+    // Função responsável por remover 1 unidade do produto //
+    function handleRemoveOneProductUnity() {
+        const newCount = count - 1
 
-  // Função responsável por excluir o item da lista //
-  function handleDeleteProductAtTheCart(productID: number) {
-    deleteProductAtTheCart(productID)
-  }
+        if (newCount <= 0) {
+            return
+        }
+        setCount(newCount)
+        updateCounOfProduct(product.id, newCount)
+    }
 
-  return (
-    <Container key={product.id}>
-      <div className="info">
-        <img src={product.image} alt={product.name} />
+    // Função responsável por atualizar o valor do input //
+    function handleChangeProductUnity(countOfProduct: number) {
+        const newCount = countOfProduct
 
-        <div className="details">
-          <span>{product.name}</span>
+        if (newCount <= 0 || newCount >= 100) {
+            return
+        }
 
-          <div className="actions">
-            <InputCount
-              value={count}
-              onChange={(e) => handleChangeProductUnity(Number(e.target.value))}
-              min={1}
-              max={99}
-              onAddOneProductUnity={handleAddOneProductUnity}
-              onRemoveProductUnity={handleRemoveOneProductUnity}
-            />
+        setCount(newCount)
+        updateCounOfProduct(product.id, newCount)
+    }
 
-            <button
-              type="button"
-              className="remove-button"
-              onClick={() => handleDeleteProductAtTheCart(product.id)}
-            >
-              <Trash size={16} />
-              Remover
-            </button>
-          </div>
-        </div>
-      </div>
+    // Função responsável por excluir o item da lista //
+    function handleDeleteProductAtTheCart(productID: number) {
+        deleteProductAtTheCart(productID)
+    }
 
-      <div className="cost">R$ {totalPrice}</div>
-    </Container>
-  )
+    return (
+        <Container key={product.id}>
+            <div className="info">
+                <img src={product.image} alt={product.name} />
+
+                <div className="details">
+                    <span>{product.name}</span>
+
+                    <div className="actions">
+                        <InputCount
+                            value={count}
+                            onChange={(e) => handleChangeProductUnity(Number(e.target.value))}
+                            min={1}
+                            max={99}
+                            onAddOneProductUnity={handleAddOneProductUnity}
+                            onRemoveProductUnity={handleRemoveOneProductUnity}
+                        />
+
+                        <button
+                            type="button"
+                            className="remove-button"
+                            onClick={() => handleDeleteProductAtTheCart(product.id)}
+                        >
+                            <Trash size={16} />
+                            Remover
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div className="cost">R$ {totalPrice}</div>
+        </Container>
+    )
 }

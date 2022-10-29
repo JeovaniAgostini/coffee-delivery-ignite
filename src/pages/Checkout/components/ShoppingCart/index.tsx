@@ -10,64 +10,64 @@ import { ProductsSelected } from '../ProductsSelected'
 import { Container } from './styles'
 
 export function ShoppingCart() {
-  const { cart } = useCart()
+    const { cart } = useCart()
 
-  const [sumTotalOfItens, setSumTotalOfItens] = useState(0)
+    const [sumTotalOfItens, setSumTotalOfItens] = useState(0)
 
-  useEffect(() => {
-    const total = cart.reduce((total, item) => {
-      return total + item.product.price * item.count
-    }, 0)
+    useEffect(() => {
+        const total = cart.reduce((total, item) => {
+            return total + item.product.price * item.count
+        }, 0)
 
-    setSumTotalOfItens(total)
-  }, [cart])
+        setSumTotalOfItens(total)
+    }, [cart])
 
-  // Variáveis auxiliares //
-  // Cálculo dos preços finais + Taxa de entrega //
-  const custOfDelivery = 3.5
-  const custOfDeliveryFormattedToBR = formatToBRCashString(custOfDelivery)
+    // Variáveis auxiliares //
+    // Cálculo dos preços finais + Taxa de entrega //
+    const custOfDelivery = 3.5
+    const custOfDeliveryFormattedToBR = formatToBRCashString(custOfDelivery)
 
-  const sumTotalOfItensFormatted = formatToBRCashString(sumTotalOfItens)
+    const sumTotalOfItensFormatted = formatToBRCashString(sumTotalOfItens)
 
-  const priceFinal = sumTotalOfItens + custOfDelivery
-  const priceFinalFormatted = formatToBRCashString(priceFinal)
+    const priceFinal = sumTotalOfItens + custOfDelivery
+    const priceFinalFormatted = formatToBRCashString(priceFinal)
 
-  const hasProductInShoppingCart = cart.length !== 0
+    const hasProductInShoppingCart = cart.length !== 0
 
-  return (
-    <Container>
-      {/* Lista de produtos no carrinho */}
-      <h2>Cafés selecionados</h2>
+    return (
+        <Container>
+            {/* Lista de produtos no carrinho */}
+            <h2>Cafés selecionados</h2>
 
-      <div className="purchase-details">
-        {!hasProductInShoppingCart ? (
-          <NoItens />
-        ) : (
-          cart.map((item) => (
-            <ProductsSelected
-              product={item.product}
-              countOfProduct={item.count}
-              key={item.product.id}
-            />
-          ))
-        )}
+            <div className="purchase-details">
+                {!hasProductInShoppingCart ? (
+                    <NoItens />
+                ) : (
+                    cart.map((item) => (
+                        <ProductsSelected
+                            product={item.product}
+                            countOfProduct={item.count}
+                            key={item.product.id}
+                        />
+                    ))
+                )}
 
-        <div className="prices">
-          <span>Total de itens</span> <span>R$ {sumTotalOfItensFormatted}</span>
-          <span>Taxa de entrega</span>{' '}
-          <span>R$ {custOfDeliveryFormattedToBR}</span>
-          <span>
-            <strong>Total</strong>
-          </span>
-          <span>
-            <strong>R$ {priceFinalFormatted}</strong>
-          </span>
-        </div>
+                <div className="prices">
+                    <span>Total de itens</span> <span>R$ {sumTotalOfItensFormatted}</span>
+                    <span>Taxa de entrega</span>{' '}
+                    <span>R$ {custOfDeliveryFormattedToBR}</span>
+                    <span>
+                        <strong>Total</strong>
+                    </span>
+                    <span>
+                        <strong>R$ {priceFinalFormatted}</strong>
+                    </span>
+                </div>
 
-        <button type="submit" disabled={!hasProductInShoppingCart}>
-          Confirmar pedido
-        </button>
-      </div>
-    </Container>
-  )
+                <button type="submit" disabled={!hasProductInShoppingCart}>
+                    Confirmar pedido
+                </button>
+            </div>
+        </Container>
+    )
 }
